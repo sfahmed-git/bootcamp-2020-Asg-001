@@ -1,18 +1,21 @@
 name: Deploy Website
 
-on: [push]
+on:
+  push: 
+    branches: 
+      - master
 
 jobs:
   build:
+    name: Job_Deploy_Surge
     runs-on: ubuntu-latest
-    name: Deploying to surge
     steps:
       - uses: actions/checkout@v2
-      - name: Install Node.js
+      - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: 12
-      - name: Install Surge
-        run: npm install -g surge
-      - name: Run surge
-        run: surge ./build furqan-Asign-1.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+          node-version: '12'
+      - name: Setup Surge
+        run: npm install --g surge
+      - name: Execute Deployment with Surge
+        run: surge ./ furqan-Asign-1.surge.sh --token ${{ secrets.SURGE_TOKEN }}
